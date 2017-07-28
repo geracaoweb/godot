@@ -46,6 +46,9 @@
 #include "servers/visual/rasterizer.h"
 #include "servers/visual_server.h"
 
+#include "arkit_interface.h"
+#include "servers/arvr_server.h"
+
 class OSIPhone : public OS_Unix {
 
 private:
@@ -72,6 +75,8 @@ private:
 #ifdef ICLOUD_ENABLED
 	ICloud *icloud;
 #endif
+
+	Ref<ARKitInterface> arkit_interface;
 
 	MainLoop *main_loop;
 
@@ -200,6 +205,8 @@ public:
 	virtual void native_video_stop();
 
 	virtual bool _check_internal_feature_support(const String &p_feature);
+	void focus_in();
+	void focus_out();
 	OSIPhone(int width, int height, String p_data_dir);
 	~OSIPhone();
 };

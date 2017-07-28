@@ -37,11 +37,16 @@
 #include "servers/camera_server.h"
 
 class CameraIOS : public CameraServer {
+private:
+	CameraFeed *arkit_feed;
+
 public:
 	CameraIOS();
 	~CameraIOS();
 
 	void update_feeds();
+
+	static CameraFeed *get_arkit_feed();
 };
 
 #endif /* CAMERAIOS_H */

@@ -47,7 +47,7 @@
 @end
 */
 
-int gl_view_base_fb;
+int gl_view_base_fb = 0;
 static String keyboard_text;
 static GLView *_instance = NULL;
 
@@ -368,6 +368,7 @@ static void clear_touches() {
 
 // Clean up any buffers we have allocated.
 - (void)destroyFramebuffer {
+	printf("Destroy framebuffers\n");
 	glDeleteFramebuffersOES(1, &viewFramebuffer);
 	viewFramebuffer = 0;
 	glDeleteRenderbuffersOES(1, &viewRenderbuffer);
@@ -471,7 +472,7 @@ static void clear_touches() {
 #ifdef DEBUG_ENABLED
 	GLenum err = glGetError();
 	if (err)
-		NSLog(@"%x error", err);
+		NSLog(@"DrawView: %x error", err);
 #endif
 }
 

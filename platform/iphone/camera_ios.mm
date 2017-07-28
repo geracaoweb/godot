@@ -193,7 +193,7 @@
 
 class CameraFeedIOS : public CameraFeed {
 private:
-	bool is_arkit; // if true this feed is updated through ARKit (should only have one and not yet implemented)
+	bool is_arkit;
 	AVCaptureDevice *device;
 	MyCaptureSession *capture_session;
 
@@ -226,7 +226,6 @@ CameraFeedIOS::CameraFeedIOS() {
 void CameraFeedIOS::set_device(AVCaptureDevice *p_device) {
 	device = p_device;
 	if (device == NULL) {
-		///@TODO finish this!
 		is_arkit = true;
 		name = "ARKit";
 		position = CameraFeed::FEED_BACK;
@@ -260,7 +259,7 @@ CameraFeedIOS::~CameraFeedIOS() {
 
 bool CameraFeedIOS::activate_feed() {
 	if (is_arkit) {
-		///@TODO to implement;
+		// this is ignored for ARKit
 	} else {
 		if (capture_session) {
 			// already recording!
@@ -357,11 +356,15 @@ void CameraIOS::update_feeds() {
 };
 
 CameraIOS::CameraIOS() {
-	///@TODO implement ARKit feed
-	// If we've got ARKit support, we need to add in a special entry for ARKit.
-	// ARKit uses our back camera and already provides us with the frames so using
-	// the camera directly just adds overhead.
-	// Note that ARKit will ignore our active state
+
+	// Make sure our first camera feed is our ARKit camera.
+	// When ARKit is active this is what we're streaming too.
+	// Note that this camera is mostly a place holder and most of the action is governed by ARKitInterface
+	CameraFeedIOS * new_arkit_feed = new CameraFeedIOS();
+	new_arkit_feed->set_device(NULL);
+
+	arkit_feed = new_arkit_feed;
+	add_feed(arkit_feed);
 
 	[AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo
 							 completionHandler:^(BOOL granted) {
@@ -379,4 +382,13 @@ CameraIOS::CameraIOS() {
 
 CameraIOS::~CameraIOS() {
 	[device_notifications release];
+};
+
+CameraFeed *CameraIOS::get_arkit_feed() {
+	CameraIOS *camera_server = (CameraIOS *)CameraServer::get_singleton();
+	if (camera_server == NULL) {
+		return NULL;
+	} else {
+		return camera_server->arkit_feed;
+	}
 };

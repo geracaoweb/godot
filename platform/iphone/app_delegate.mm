@@ -152,6 +152,8 @@ static void on_focus_out(ViewController *view_controller, bool *is_focus_out) {
 			OSIPhone::get_singleton()->native_video_focus_out();
 		}
 
+		OSIPhone::get_singleton()->focus_out();
+
 		AudioDriverCoreAudio *audio = dynamic_cast<AudioDriverCoreAudio *>(AudioDriverCoreAudio::get_singleton());
 		if (audio)
 			audio->stop();
@@ -169,6 +171,8 @@ static void on_focus_in(ViewController *view_controller, bool *is_focus_out) {
 		if (OSIPhone::get_singleton()->native_video_is_playing()) {
 			OSIPhone::get_singleton()->native_video_unpause();
 		}
+
+		OSIPhone::get_singleton()->focus_in();
 
 		AudioDriverCoreAudio *audio = dynamic_cast<AudioDriverCoreAudio *>(AudioDriverCoreAudio::get_singleton());
 		if (audio)

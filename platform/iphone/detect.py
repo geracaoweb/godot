@@ -152,6 +152,8 @@ def configure(env):
                           '-framework', 'Security',
                           '-framework', 'SystemConfiguration',
                           '-framework', 'UIKit',
+                          '-framework', 'ARKit',
+                          '-framework', 'CoreVideo',
                           ])
 
     # Feature options
