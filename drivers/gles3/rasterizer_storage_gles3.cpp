@@ -7689,6 +7689,7 @@ void RasterizerStorageGLES3::initialize() {
 	frame.clear_request = false;
 
 	shaders.copy.init();
+	shaders.ycbcr.init();
 
 	{
 		//default textures

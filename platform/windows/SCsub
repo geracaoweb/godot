@@ -8,6 +8,7 @@ import platform_windows_builders
 
 common_win = [
     "godot_win.cpp",
+    "camera_win.cpp",
     "context_gl_win.cpp",
     "crash_handler_win.cpp",
     "os_windows.cpp",

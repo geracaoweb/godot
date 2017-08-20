@@ -30,6 +30,8 @@
 
 #ifndef OS_WINDOWS_H
 #define OS_WINDOWS_H
+
+#include "camera_win.h"
 #include "context_gl_win.h"
 #include "core/os/input.h"
 #include "core/os/os.h"
@@ -89,6 +91,7 @@ class OS_Windows : public OS {
 	ContextGL_Win *gl_context;
 #endif
 	VisualServer *visual_server;
+	CameraWindows *camera_server;
 	int pressrc;
 	HDC hDC; // Private GDI Device Context
 	HINSTANCE hInstance; // Holds The Instance Of The Application

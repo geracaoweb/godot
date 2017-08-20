@@ -42,6 +42,7 @@
 #include "shaders/copy.glsl.gen.h"
 #include "shaders/cubemap_filter.glsl.gen.h"
 #include "shaders/particles.glsl.gen.h"
+#include "shaders/ycbcr.glsl.gen.h"
 
 // WebGL 2.0 has no MapBufferRange/UnmapBuffer, but offers a non-ES style BufferSubData API instead.
 #ifdef __EMSCRIPTEN__
@@ -109,6 +110,7 @@ public:
 	mutable struct Shaders {
 
 		CopyShaderGLES3 copy;
+		YcbcrShaderGLES3 ycbcr;
 
 		ShaderCompilerGLES3 compiler;
 

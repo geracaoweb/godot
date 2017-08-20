@@ -1345,6 +1345,8 @@ Error OS_Windows::initialize(const VideoMode &p_desired, int p_video_driver, int
 
 	power_manager = memnew(PowerWindows);
 
+	camera_server = memnew(CameraWindows);
+
 	AudioDriverManager::initialize(p_audio_driver);
 
 	TRACKMOUSEEVENT tme;
@@ -1486,6 +1488,7 @@ void OS_Windows::finalize() {
 
 	memdelete(joypad);
 	memdelete(input);
+	memdelete(camera_server);
 	touch_state.clear();
 
 	visual_server->finish();
