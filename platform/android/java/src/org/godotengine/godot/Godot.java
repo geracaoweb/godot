@@ -120,6 +120,7 @@ public class Godot extends Activity implements SensorEventListener, IDownloaderC
 	private boolean mStatePaused;
 	private int mState;
 	private boolean keep_screen_on = true;
+	private int sensor_delay = SensorManager.SENSOR_DELAY_GAME;
 
 	static private Intent mCurrentIntent;
 
@@ -279,7 +280,7 @@ public class Godot extends Activity implements SensorEventListener, IDownloaderC
 		// ...add to FrameLayout
 		layout.addView(edittext);
 
-		mView = new GodotView(getApplication(), io, use_gl3, use_32_bits, use_debug_opengl,this);
+		mView = new GodotView(getApplication(), io, use_gl3, use_32_bits, use_debug_opengl, this);
 		layout.addView(mView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		edittext.setView(mView);
 		io.setEdit(edittext);
@@ -420,18 +421,29 @@ public class Godot extends Activity implements SensorEventListener, IDownloaderC
 			command_line = new_cmdline;
 		}
 
+		String sensor_delay_string = GodotLib.getGlobal("input_devices/sensors/sensor_delay");
+		if (sensor_delay_string == "Fastest") {
+			sensor_delay = SensorManager.SENSOR_DELAY_FASTEST;
+		} else if (sensor_delay_string == "Game") {
+			sensor_delay = SensorManager.SENSOR_DELAY_GAME;
+		} else if (sensor_delay_string == "Normal") {
+			sensor_delay = SensorManager.SENSOR_DELAY_NORMAL;
+		} else if (sensor_delay_string == "UI") {
+			sensor_delay = SensorManager.SENSOR_DELAY_UI;
+		}
+
 		io = new GodotIO(this);
 		io.unique_id = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
 		GodotLib.io = io;
 		mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+		mSensorManager.registerListener(this, mAccelerometer, sensor_delay);
 		mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_GAME);
+		mSensorManager.registerListener(this, mGravity, sensor_delay);
 		mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
+		mSensorManager.registerListener(this, mMagnetometer, sensor_delay);
 		mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_GAME);
+		mSensorManager.registerListener(this, mGyroscope, sensor_delay);
 
 		GodotLib.initialize(this, io.needsReloadHooks(), getAssets(), use_apk_expansion);
 
@@ -660,10 +672,10 @@ public class Godot extends Activity implements SensorEventListener, IDownloaderC
 				GodotLib.focusin();
 			}
 		});
-		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-		mSensorManager.registerListener(this, mGravity, SensorManager.SENSOR_DELAY_GAME);
-		mSensorManager.registerListener(this, mMagnetometer, SensorManager.SENSOR_DELAY_GAME);
-		mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_GAME);
+		mSensorManager.registerListener(this, mAccelerometer, sensor_delay);
+		mSensorManager.registerListener(this, mGravity, sensor_delay);
+		mSensorManager.registerListener(this, mMagnetometer, sensor_delay);
+		mSensorManager.registerListener(this, mGyroscope, sensor_delay);
 
 		if (use_immersive && Build.VERSION.SDK_INT >= 19.0) { // check if the application runs on an android 4.4+
 			Window window = getWindow();
