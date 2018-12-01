@@ -38,6 +38,8 @@
 #else
 #define JNIEnv void
 #define jobject void *
+#define EGLDisplay int
+#define EGLContext int
 #endif
 
 #ifdef __cplusplus
@@ -46,6 +48,9 @@ extern "C" {
 
 JNIEnv *GDAPI godot_android_get_env();
 jobject GDAPI godot_android_get_activity();
+jobject GDAPI godot_android_get_surface();
+EGLDisplay GDAPI godot_android_get_display();
+EGLContext GDAPI godot_android_get_context();
 
 #ifdef __cplusplus
 }

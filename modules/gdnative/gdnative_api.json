@@ -6275,6 +6275,24 @@
           "return_type": "jobject",
           "arguments": [
           ]
+        },
+        {
+          "name": "godot_android_get_surface",
+          "return_type": "jobject",
+          "arguments": [
+          ]
+        },
+        {
+          "name": "godot_android_get_display",
+          "return_type": "EGLDisplay",
+          "arguments": [
+          ]
+        },
+        {
+          "name": "godot_android_get_context",
+          "return_type": "EGLContext",
+          "arguments": [
+          ]
         }
       ]
     },

@@ -35,9 +35,6 @@
 
 #ifdef __ANDROID__
 #include "platform/android/thread_jandroid.h"
-#else
-#define JNIEnv void
-#define jobject void *
 #endif
 
 #ifdef __cplusplus
@@ -63,6 +60,33 @@ jobject GDAPI godot_android_get_activity() {
 	jobject context = env->CallObjectMethod(at, getApplication);
 
 	return env->NewGlobalRef(context);
+#else
+	return NULL;
+#endif
+}
+
+jobject GDAPI godot_android_get_surface() {
+#ifdef __ANDROID__
+	// TODO implement! Should somehow obtain this from our GodotView instance (or is this our GodotView instance?)
+	return NULL;
+#else
+	return NULL;
+#endif
+}
+
+EGLDisplay GDAPI godot_android_get_display() {
+#ifdef __ANDROID__
+	// TODO implement! Should somehow obtain this from our GodotView instance
+	return 0;
+#else
+	return NULL;
+#endif
+}
+
+EGLContext GDAPI godot_android_get_context() {
+#ifdef __ANDROID__
+	// TODO implement! Should somehow obtain this from our GodotView instance
+	return EGL_NO_CONTEXT;
 #else
 	return NULL;
 #endif
